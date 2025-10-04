@@ -53,5 +53,5 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  getIt() {}
 }
+
