@@ -1,6 +1,8 @@
 
 import 'package:flutter/material.dart';
 
+import 'home_tab.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -14,9 +16,7 @@ class _HomePageState extends State<HomePage> {
 
   final _pages = [
 
-    const Center(
-      child: Text('Settings', style: TextStyle(color: Colors.white)),
-    ),
+    const HomeTab(),
     const Center(
       child: Text('Settings', style: TextStyle(color: Colors.white)),
     ),
