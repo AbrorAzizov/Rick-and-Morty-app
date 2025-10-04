@@ -1,22 +1,36 @@
-
 import '../domain/entity/character.dart';
 
-abstract class HomeState {}
+abstract class CharacterState {}
 
-class HomeInitial extends HomeState {}
+class CharacterInitial extends CharacterState {}
 
-class  HomeStateLoading extends HomeState {}
+class CharacterLoading extends CharacterState {}
 
-
-class TransactionStateLoaded extends HomeState {
+class CharacterLoaded extends CharacterState {
   final List<Character> characters;
-  final bool hasMore ;
+  final bool hasMore;
   final int currentPage;
 
-  TransactionStateLoaded({required this.characters, required this.hasMore,  this.currentPage = 1});
+  CharacterLoaded({
+    required this.characters,
+    required this.hasMore,
+    required this.currentPage,
+  });
+
+  CharacterLoaded copyWith({
+    List<Character>? characters,
+    bool? hasMore,
+    int? currentPage,
+  }) {
+    return CharacterLoaded(
+        characters: characters ?? this.characters,
+        hasMore: hasMore ?? this.hasMore,
+        currentPage: currentPage ?? this.currentPage);
+  }
 }
-class TransactionStateError extends HomeState {
+
+class CharacterError extends CharacterState {
   final String message;
 
-  TransactionStateError(this.message);
+  CharacterError(this.message);
 }
