@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:rick_and_mort_test/features/home/data/model/character_model.dart';
 import 'package:rick_and_mort_test/service_locator.dart';
 import 'features/home/bloc/home_bloc.dart';
 import 'features/home/bloc/theme/theme_cubit.dart';
@@ -11,6 +12,7 @@ import 'features/home/view/home_view.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
+  Hive.registerAdapter(CharacterModelAdapter());
   await setupServiceLocator();
   runApp(const MyApp());
 }

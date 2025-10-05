@@ -29,15 +29,5 @@ class Character {
     );
   }
 
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "name": name,
-      "status": status,
-      "species": species,
-      "gender": gender,
-      "image": image,
-      "location": location,
-    };
-  }
+
 }

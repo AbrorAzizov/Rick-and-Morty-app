@@ -1,5 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:dio/dio.dart';
+import 'package:hive/hive.dart';
+import 'package:rick_and_mort_test/features/home/data/model/character_model.dart';
 
 import 'features/home/data/repository/character_repo_imp.dart';
 import 'features/home/data/service/character_servise.dart';
@@ -14,8 +16,11 @@ Future<void> setupServiceLocator() async {
   // Service
   sl.registerLazySingleton<CharacterService>(() => CharacterService());
 
+  final characterBox = await Hive.openBox<CharacterModel>('CharacterBox');
+
+
   // Repository implementation
   sl.registerLazySingleton<CharacterRepo>(
-        () => CharacterRepoImp(service: sl<CharacterService>()),
+        () => CharacterRepoImp(service: sl<CharacterService>(),characterBox: characterBox),
   );
 }

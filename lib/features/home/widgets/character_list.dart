@@ -20,8 +20,8 @@ class CharacterWidget extends StatelessWidget {
           color: theme.cardColor,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isDark ? Colors.greenAccent.shade100 : Colors.lightGreen,
-            width: 1,
+            color: isDark ? Colors.greenAccent.shade100 : Colors.indigoAccent,
+            width: 2,
           ),
           boxShadow: [
             BoxShadow(
