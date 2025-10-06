@@ -1,9 +1,15 @@
 # rick_and_mort_test
 
-A new Flutter project.
+# 🚀 My Flutter App
 
-## Getting Started
+A simple Flutter app that looks amazing!
 
+## 📸 Screenshots
+
+<p align="center">
+  <img src="screenshots/img.png" width="250" />
+  <img src="screenshots/img_1.png" width="250" />
+</p>
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
