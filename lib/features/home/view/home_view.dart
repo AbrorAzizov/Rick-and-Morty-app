@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 
+import '../../favorite/view/favourite_tab.dart';
 import 'home_tab.dart';
 
 class HomePage extends StatefulWidget {
@@ -17,10 +18,7 @@ class _HomePageState extends State<HomePage> {
   final _pages = [
 
     const HomeTab(),
-    const Center(
-      child: Text('Settings', style: TextStyle(color: Colors.white)),
-    ),
-
+    FavoritesTab(),
   ];
 
 

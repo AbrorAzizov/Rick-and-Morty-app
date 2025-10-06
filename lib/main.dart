@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:rick_and_mort_test/features/home/data/model/character_model.dart';
 import 'package:rick_and_mort_test/service_locator.dart';
+import 'features/favorite/bloc/favourite_cubit.dart';
+import 'features/favorite/domain/repo/favourite_repo_imp.dart';
 import 'features/home/bloc/home_bloc.dart';
 import 'features/home/bloc/theme/theme_cubit.dart';
 import 'features/home/domain/repo/character_repository.dart';
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (_) => FavoritesCubit(sl<FavoritesRepo>()),),
         BlocProvider(create: (_) => ThemeCubit()),
         BlocProvider(create: (_) => CharacterBloc(sl<CharacterRepo>())),
       ],

@@ -1,6 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../favorite/bloc/favourite_cubit.dart';
+import '../../favorite/bloc/favourite_state.dart';
 import '../domain/entity/character.dart';
+
+import 'icon_and_label.dart';
 
 class CharacterWidget extends StatelessWidget {
   const CharacterWidget({super.key, required this.character});
@@ -10,6 +15,8 @@ class CharacterWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
+    final favoritesCubit = context.read<FavoritesCubit>();
+    final isFav = favoritesCubit.isFavorite(character.id);
 
     return InkWell(
       borderRadius: BorderRadius.circular(12),
@@ -60,31 +67,46 @@ class CharacterWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(
-                        child: Text(
-                          character.name,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
+                      Row(
+                        children: [
+                          Text(
+                            character.name,
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                          const SizedBox(width: 10),
+                          Icon(
+                            Icons.circle,
+                            size: 16,
+                            color: _statusColor(character.status),
+                          ),
+                        ],
                       ),
-                      const SizedBox(width: 6),
-                      Tooltip(
-                        message: character.status,
-                        child: Icon(
-                          Icons.circle,
-                          size: 12,
-                          color: _statusColor(character.status),
-                        ),
+                      BlocBuilder<FavoritesCubit, FavoritesState>(
+                        builder: (context, state) {
+                          final isFavorite = favoritesCubit.isFavorite(character.id);
+                          return IconButton(
+                            onPressed: () {
+                              favoritesCubit.toggleFavorite(character);
+                            },
+                            icon: Icon(
+                              isFavorite ? Icons.star : Icons.star_border,
+                              size: 30,
+                              color: isFavorite ? Colors.amber : Colors.grey,
+                            ),
+                          );
+                        },
                       ),
                     ],
                   ),
                   const SizedBox(height: 6),
                   if (character.species.isNotEmpty)
-                    _IconAndLabel(
+                    IconAndLabel(
                       label: character.species,
                       icon: Icons.face,
                     ),
@@ -106,31 +128,5 @@ class CharacterWidget extends StatelessWidget {
       default:
         return Colors.grey;
     }
-  }
-}
-
-class _IconAndLabel extends StatelessWidget {
-  const _IconAndLabel({required this.label, required this.icon});
-  final String label;
-  final IconData icon;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Icon(icon, size: 16, color: theme.iconTheme.color),
-        const SizedBox(width: 6),
-        Expanded(
-          child: Text(
-            label,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: theme.textTheme.bodyMedium,
-          ),
-        ),
-      ],
-    );
   }
 }
