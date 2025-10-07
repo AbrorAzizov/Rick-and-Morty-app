@@ -31,8 +31,9 @@ class _FavoritesTabState extends State<FavoritesTab> {
         } else if (state is FavoritesError) {
           return Center(child: Text(state.message));
         } else if (state is FavoritesLoaded) {
-          context.read<FavoritesCubit>().sortFavourites(state.favorites,sortBy);
+          context.read<FavoritesCubit>().sortFavourites(state.favorites, sortBy);
           final favorites = state.favorites;
+
           if (favorites.isEmpty) {
             return const Center(child: Text('No favorites yet'));
           }
@@ -50,12 +51,9 @@ class _FavoritesTabState extends State<FavoritesTab> {
                         setState(() => sortBy = value);
                       },
                       itemBuilder: (_) => const [
-                        PopupMenuItem(
-                            value: 'name', child: Text('Sort by Name')),
-                        PopupMenuItem(
-                            value: 'status', child: Text('Sort by Status')),
-                        PopupMenuItem(
-                            value: 'species', child: Text('Sort by Species')),
+                        PopupMenuItem(value: 'name', child: Text('Sort by Name')),
+                        PopupMenuItem(value: 'status', child: Text('Sort by Status')),
+                        PopupMenuItem(value: 'species', child: Text('Sort by Species')),
                       ],
                       icon: const Icon(Icons.sort),
                     ),
@@ -63,21 +61,13 @@ class _FavoritesTabState extends State<FavoritesTab> {
                 ),
               ),
               Expanded(
-                child: GridView.builder(
+                child: ListView.separated(
                   padding: const EdgeInsets.all(8),
                   itemCount: favorites.length,
-                  gridDelegate:
-                  const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 8,
-                    mainAxisSpacing: 8,
-                    childAspectRatio: 0.65,
-                  ),
+                  separatorBuilder: (_, __) => const SizedBox(height: 8),
                   itemBuilder: (context, index) {
                     final character = favorites[index];
                     return CharacterWidget(character: character);
-
-
                   },
                 ),
               ),
@@ -88,6 +78,7 @@ class _FavoritesTabState extends State<FavoritesTab> {
         }
       },
     );
+
   }
 
 }
