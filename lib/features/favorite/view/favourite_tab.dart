@@ -31,7 +31,8 @@ class _FavoritesTabState extends State<FavoritesTab> {
         } else if (state is FavoritesError) {
           return Center(child: Text(state.message));
         } else if (state is FavoritesLoaded) {
-          final favorites = _sortFavorites(state.favorites);
+          context.read<FavoritesCubit>().sortFavourites(state.favorites,sortBy);
+          final favorites = state.favorites;
           if (favorites.isEmpty) {
             return const Center(child: Text('No favorites yet'));
           }
@@ -89,19 +90,4 @@ class _FavoritesTabState extends State<FavoritesTab> {
     );
   }
 
-  List<Character> _sortFavorites(List<Character> list) {
-    final sorted = List<Character>.from(list);
-    switch (sortBy) {
-      case 'name':
-        sorted.sort((a, b) => a.name.compareTo(b.name));
-        break;
-      case 'status':
-        sorted.sort((a, b) => a.status.compareTo(b.status));
-        break;
-      case 'species':
-        sorted.sort((a, b) => a.species.compareTo(b.species));
-        break;
-    }
-    return sorted;
-  }
 }

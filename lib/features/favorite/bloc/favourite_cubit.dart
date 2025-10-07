@@ -18,6 +18,23 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     );
   }
 
+  void sortFavourites (List<Character> characters, String sortBy){
+    final sorted = List<Character>.from(characters);
+    switch (sortBy) {
+      case 'name':
+        sorted.sort((a, b) => a.name.compareTo(b.name));
+        break;
+      case 'status':
+        sorted.sort((a, b) => a.status.compareTo(b.status));
+        break;
+      case 'species':
+        sorted.sort((a, b) => a.species.compareTo(b.species));
+        break;
+    }
+  emit(FavoritesLoaded(sorted));
+  }
+
+
   Future<void> toggleFavorite(Character character) async {
     if (repo.isFavorite(character.id)) {
       await repo.removeFavorite(character.id);
