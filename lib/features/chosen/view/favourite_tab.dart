@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../home/domain/entity/character.dart';
 import '../../home/widgets/character_list.dart';
 import '../bloc/favourite_cubit.dart';
 import '../bloc/favourite_state.dart';

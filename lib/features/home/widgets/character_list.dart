@@ -1,8 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../favorite/bloc/favourite_cubit.dart';
-import '../../favorite/bloc/favourite_state.dart';
+
+import '../../chosen/bloc/favourite_cubit.dart';
+import '../../chosen/bloc/favourite_state.dart';
 import '../domain/entity/character.dart';
 
 import 'icon_and_label.dart';
@@ -16,7 +17,7 @@ class CharacterWidget extends StatelessWidget {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
     final favoritesCubit = context.read<FavoritesCubit>();
-    final isFav = favoritesCubit.isFavorite(character.id);
+   favoritesCubit.isFavorite(character.id);
 
     return InkWell(
       borderRadius: BorderRadius.circular(12),
@@ -32,7 +33,7 @@ class CharacterWidget extends StatelessWidget {
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black,
               blurRadius: 4,
               offset: const Offset(0, 2),
             )
@@ -49,7 +50,7 @@ class CharacterWidget extends StatelessWidget {
                 width: double.infinity,
                 height: 180,
                 placeholder: (context, url) => Container(
-                  color: Colors.grey.withOpacity(0.3),
+                  color: Colors.grey,
                   alignment: Alignment.center,
                   child: const SizedBox(
                     width: 24,

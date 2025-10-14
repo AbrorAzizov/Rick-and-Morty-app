@@ -40,7 +40,7 @@ class _HomeTabState extends State<HomeTab> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Rick and Morty"),
+
         actions: [
           IconButton(
             icon: Icon(

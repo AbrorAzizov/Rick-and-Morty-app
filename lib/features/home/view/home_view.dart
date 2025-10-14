@@ -1,7 +1,8 @@
 
 import 'package:flutter/material.dart';
 
-import '../../favorite/view/favourite_tab.dart';
+
+import '../../chosen/view/favourite_tab.dart';
 import 'home_tab.dart';
 
 class HomePage extends StatefulWidget {
@@ -30,21 +31,19 @@ class _HomePageState extends State<HomePage> {
         iconSize: 30,
         currentIndex: _currentIndex,
         backgroundColor:Colors.teal,
-        selectedItemColor: Colors.greenAccent,
+        selectedItemColor: Colors.indigo,
         unselectedItemColor: Colors.white70,
         type: BottomNavigationBarType.fixed,
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),
-            label: "Main",
+            label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.star),
-            label: "Budgets",
+            icon: Icon(Icons.star_purple500_rounded),
+            label: "Favorite",
           ),
-
-
         ],
       ),
     );

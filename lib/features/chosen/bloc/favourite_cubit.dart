@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../home/domain/entity/character.dart';
-import '../domain/repo/favourite_repo_imp.dart';
+import '../data/repository/favourite_repo.dart';
+
 import 'favourite_state.dart';
 
 

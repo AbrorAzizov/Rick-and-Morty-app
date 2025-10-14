@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 class IconAndLabel extends StatelessWidget {
-  const IconAndLabel({required this.label, required this.icon});
-  final String label;
+  const IconAndLabel({
+    super.key,
+    required this.label,
+    required this.icon,
+  });final String label;
   final IconData icon;
 
   @override

@@ -2,12 +2,14 @@ import 'package:dartz/dartz.dart';
 import 'package:hive/hive.dart';
 import '../../../home/data/model/character_model.dart';
 import '../../../home/domain/entity/character.dart';
+import '../../data/repository/favourite_repo.dart';
 
-class FavoritesRepo {
+class FavoritesRepoImp implements FavoritesRepo {
   final Box<CharacterModel> favoritesBox;
 
-  FavoritesRepo({required this.favoritesBox});
+  FavoritesRepoImp({required this.favoritesBox});
 
+  @override
   Future<Either<String, List<Character>>> getFavorites() async {
     try {
       final favorites = favoritesBox.values.map((m) => m.toEntity()).toList();
@@ -17,6 +19,7 @@ class FavoritesRepo {
     }
   }
 
+  @override
   Future<void> addFavorite(Character character) async {
     final exists = favoritesBox.values.any((c) => c.id == character.id);
     if (!exists) {
@@ -24,6 +27,7 @@ class FavoritesRepo {
     }
   }
 
+  @override
   Future<void> removeFavorite(int id) async {
     final key = favoritesBox.keys.firstWhere(
           (k) => favoritesBox.get(k)?.id == id,
@@ -34,6 +38,7 @@ class FavoritesRepo {
     }
   }
 
+  @override
   bool isFavorite(int id) {
     return favoritesBox.values.any((c) => c.id == id);
   }
