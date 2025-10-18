@@ -1,12 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../home/domain/entity/character.dart';
 import '../data/repository/favourite_repo.dart';
-
 import 'favourite_state.dart';
-
 
 class FavoritesCubit extends Cubit<FavoritesState> {
   final FavoritesRepo repo;
+  List<Character> _allFavorites = [];
 
   FavoritesCubit(this.repo) : super(FavoritesInitial());
 
@@ -15,26 +14,42 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     final result = await repo.getFavorites();
     result.fold(
           (error) => emit(FavoritesError(error)),
-          (favorites) => emit(FavoritesLoaded(favorites)),
+          (favorites) {
+        _allFavorites = favorites;
+        emit(FavoritesLoaded(List.from(favorites)));
+      },
     );
   }
 
-  void sortFavourites (List<Character> characters, String sortBy){
-    final sorted = List<Character>.from(characters);
+  void sortFavourites(String sortBy) {
+    if (state is! FavoritesLoaded) return;
+    final current = List<Character>.from((state as FavoritesLoaded).favorites);
+
     switch (sortBy) {
       case 'name':
-        sorted.sort((a, b) => a.name.compareTo(b.name));
+        current.sort((a, b) => a.name.compareTo(b.name));
         break;
       case 'status':
-        sorted.sort((a, b) => a.status.compareTo(b.status));
+        current.sort((a, b) => a.status.compareTo(b.status));
         break;
       case 'species':
-        sorted.sort((a, b) => a.species.compareTo(b.species));
+        current.sort((a, b) => a.species.compareTo(b.species));
         break;
     }
-  emit(FavoritesLoaded(sorted));
+    emit(FavoritesLoaded(current));
   }
 
+  void searchFavorites(String query) {
+    if (query.isEmpty) {
+      emit(FavoritesLoaded(List.from(_allFavorites)));
+      return;
+    }
+
+    final filtered = _allFavorites
+        .where((c) => c.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+    emit(FavoritesLoaded(filtered));
+  }
 
   Future<void> toggleFavorite(Character character) async {
     if (repo.isFavorite(character.id)) {
@@ -42,12 +57,13 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     } else {
       await repo.addFavorite(character);
     }
-    loadFavorites();
+    await loadFavorites();
   }
 
   Future<void> deleteFavorite(Character character) async {
     await repo.removeFavorite(character.id);
-
+    await loadFavorites();
   }
+
   bool isFavorite(int id) => repo.isFavorite(id);
 }

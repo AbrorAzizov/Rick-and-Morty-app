@@ -3,9 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:hive/hive.dart';
 import 'package:rick_and_mort_test/features/chosen/domain/repo/favourite_repo_imp.dart';
 import 'package:rick_and_mort_test/features/home/data/model/character_model.dart';
-
 import 'features/chosen/data/repository/favourite_repo.dart';
-
 import 'features/home/data/repository/character_repo_imp.dart';
 import 'features/home/data/service/character_servise.dart';
 import 'features/home/domain/repo/character_repository.dart';

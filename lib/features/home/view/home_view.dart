@@ -15,26 +15,30 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _currentIndex = 0;
 
-
   final _pages = [
-
     const HomeTab(),
-    FavoritesTab(),
+    const FavoritesTab(),
   ];
-
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+
     return Scaffold(
       body: _pages[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         iconSize: 30,
         currentIndex: _currentIndex,
-        backgroundColor:Colors.teal,
-        selectedItemColor: Colors.indigo,
-        unselectedItemColor: Colors.white70,
+
+
+        backgroundColor: isDark ? Colors.orangeAccent : Colors.deepOrangeAccent,
+        selectedItemColor: isDark ? Colors.white70 : Colors.orangeAccent,
+        unselectedItemColor: isDark ? Colors.white : Colors.white70,
+
         type: BottomNavigationBarType.fixed,
         onTap: (index) => setState(() => _currentIndex = index),
+
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_outlined),

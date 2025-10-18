@@ -5,12 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../core/constants/colors/app_colors.dart';
 import '../../chosen/bloc/favourite_cubit.dart';
 import '../../chosen/bloc/favourite_state.dart';
-import '../domain/entity/character.dart';
+import '../../home/domain/entity/character.dart';
 
 
-class CharacterWidget extends StatelessWidget {
-  const CharacterWidget({super.key, required this.character});
+class FavoriteList extends StatelessWidget {
+  final VoidCallback? onDelete;
+  const FavoriteList({super.key, required this.character, this.onDelete});
   final Character character;
+
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,11 @@ class CharacterWidget extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF1E1E1E) : Colors.white,
+        color: isDark ? AppColors.darkCard : AppColors.lightCard,
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: isDark
-                ? Colors.black
-                : Colors.grey,
+            color: isDark ? AppColors.darkShadow : AppColors.lightShadow,
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -35,7 +35,7 @@ class CharacterWidget extends StatelessWidget {
       ),
       child: InkWell(
         borderRadius: BorderRadius.circular(20),
-        onTap: () => debugPrint('Tapped on ${character.name}'),
+        onTap: () => debugPrint('Tapped '),
         child: Padding(
           padding: const EdgeInsets.all(10),
           child: Row(
@@ -49,7 +49,7 @@ class CharacterWidget extends StatelessWidget {
                   width: 90,
                   fit: BoxFit.cover,
                   placeholder: (context, url) => Container(
-                    color: Colors.grey.shade300,
+                    color: AppColors.placeholder,
                     height: 90,
                     width: 90,
                     alignment: Alignment.center,
@@ -60,13 +60,11 @@ class CharacterWidget extends StatelessWidget {
                     ),
                   ),
                   errorWidget: (context, url, error) =>
-                  const Icon(Icons.error, color: Colors.red),
+                  const Icon(Icons.error, color: AppColors.dead),
                 ),
               ),
 
               const SizedBox(width: 14),
-
-              // 🧠 Character info
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -75,7 +73,9 @@ class CharacterWidget extends StatelessWidget {
                       character.name,
                       style: theme.textTheme.titleMedium?.copyWith(
                         fontWeight: FontWeight.bold,
-                        color: isDark ? Colors.white : Colors.black,
+                        color: isDark
+                            ? AppColors.darkTextPrimary
+                            : AppColors.lightTextPrimary,
                       ),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -85,8 +85,8 @@ class CharacterWidget extends StatelessWidget {
                       character.species,
                       style: theme.textTheme.bodyMedium?.copyWith(
                         color: isDark
-                            ? Colors.grey.shade400
-                            : Colors.grey.shade600,
+                            ? AppColors.darkTextSecondary
+                            : AppColors.lightTextSecondary,
                       ),
                     ),
                     const SizedBox(height: 8),
@@ -101,21 +101,20 @@ class CharacterWidget extends StatelessWidget {
                 ),
               ),
 
-              // ⭐ Favorite button
+              // 🗑 Delete from favorites
               BlocBuilder<FavoritesCubit, FavoritesState>(
                 builder: (context, state) {
-                  final isFavorite = favoritesCubit.isFavorite(character.id);
                   return IconButton(
-                    icon: Icon(
-                      isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
-                      color: isFavorite ? Colors.amber : Colors.grey,
+                    icon: const Icon(
+                      Icons.delete,
+                      color: AppColors.favoriteInactive,
                       size: 30,
                     ),
                     onPressed: () {
-                      favoritesCubit.toggleFavorite(character);
+                      onDelete?.call();
+                      favoritesCubit.deleteFavorite(character);
                     },
                   );
-
                 },
               ),
             ],
@@ -126,7 +125,7 @@ class CharacterWidget extends StatelessWidget {
   }
 
   Color _statusColor(String status) {
-    switch (status.toLowerCase()) {
+    switch (status) {
       case 'alive':
         return AppColors.alive;
       case 'dead':
@@ -137,3 +136,4 @@ class CharacterWidget extends StatelessWidget {
   }
 
 }
+
