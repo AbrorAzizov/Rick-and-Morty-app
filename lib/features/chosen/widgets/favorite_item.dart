@@ -8,11 +8,15 @@ import '../../chosen/bloc/favourite_state.dart';
 import '../../home/domain/entity/character.dart';
 
 
-class FavoriteList extends StatelessWidget {
-  final VoidCallback? onDelete;
-  const FavoriteList({super.key, required this.character, this.onDelete});
+class FavoriteItem extends StatelessWidget {
   final Character character;
+  final VoidCallback onDelete;
 
+  const FavoriteItem({
+    super.key,
+    required this.character,
+    required this.onDelete,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -111,7 +115,7 @@ class FavoriteList extends StatelessWidget {
                       size: 30,
                     ),
                     onPressed: () {
-                      onDelete?.call();
+                      onDelete.call();
                       favoritesCubit.deleteFavorite(character);
                     },
                   );

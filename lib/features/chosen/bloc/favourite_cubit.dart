@@ -62,7 +62,6 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   Future<void> deleteFavorite(Character character) async {
     await repo.removeFavorite(character.id);
-    await loadFavorites();
   }
 
   bool isFavorite(int id) => repo.isFavorite(id);

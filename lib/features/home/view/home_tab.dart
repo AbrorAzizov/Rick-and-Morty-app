@@ -41,16 +41,18 @@ class _HomeTabState extends State<HomeTab> {
     return Scaffold(
       appBar: AppBar(
 
-        actions: [
-          IconButton(
-            icon: Icon(
-              context.watch<ThemeCubit>().state == ThemeMode.light
-                  ? Icons.dark_mode
-                  : Icons.light_mode,
-            ),
-            onPressed: () => themeCubit.toggleTheme(),
-          ),
-        ],
+      leading:  IconButton(
+        icon: Icon(
+          context.watch<ThemeCubit>().state == ThemeMode.light
+              ? Icons.dark_mode
+              : Icons.light_mode,
+          color: context.watch<ThemeCubit>().state == ThemeMode.light
+              ? Colors.indigoAccent
+              : Colors.yellow,
+        ),
+
+        onPressed: () => themeCubit.toggleTheme(),
+      ),
       ),
       body: BlocBuilder<CharacterBloc, CharacterState>(
         builder: (context, state) {
