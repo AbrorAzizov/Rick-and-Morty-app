@@ -1,11 +1,9 @@
 # rick_and_mort_test
-![Home Screen](https://github.com/AbrorAzizov/Rick-and-Morty-app/tree/master/screenshots)
 
 # 🚀 My Flutter App
 
 A simple Flutter app that looks amazing!
 
-## 📸 Screenshots
 
 
 This project is a starting point for a Flutter application.
