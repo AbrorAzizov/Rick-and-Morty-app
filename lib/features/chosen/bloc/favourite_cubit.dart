@@ -5,9 +5,10 @@ import 'favourite_state.dart';
 
 class FavoritesCubit extends Cubit<FavoritesState> {
   final FavoritesRepo repo;
-  List<Character> _allFavorites = [];
 
   FavoritesCubit(this.repo) : super(FavoritesInitial());
+
+  List<Character> _allFavorites = [];
 
   Future<void> loadFavorites() async {
     emit(FavoritesLoading());
@@ -23,20 +24,9 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   void sortFavourites(String sortBy) {
     if (state is! FavoritesLoaded) return;
-    final current = List<Character>.from((state as FavoritesLoaded).favorites);
-
-    switch (sortBy) {
-      case 'name':
-        current.sort((a, b) => a.name.compareTo(b.name));
-        break;
-      case 'status':
-        current.sort((a, b) => a.status.compareTo(b.status));
-        break;
-      case 'species':
-        current.sort((a, b) => a.species.compareTo(b.species));
-        break;
-    }
-    emit(FavoritesLoaded(current));
+    final current = (state as FavoritesLoaded).favorites;
+    final sorted = repo.sortFavourites(sortBy, current);
+    emit(FavoritesLoaded(sorted));
   }
 
   void searchFavorites(String query) {
@@ -44,11 +34,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       emit(FavoritesLoaded(List.from(_allFavorites)));
       return;
     }
-
-    final filtered = _allFavorites
-        .where((c) => c.name.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-    emit(FavoritesLoaded(filtered));
+    final result = repo.searchFavourites(query, _allFavorites);
+    emit(FavoritesLoaded(result));
   }
 
   Future<void> toggleFavorite(Character character) async {
@@ -62,6 +49,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
 
   Future<void> deleteFavorite(Character character) async {
     await repo.removeFavorite(character.id);
+    await loadFavorites();
   }
 
   bool isFavorite(int id) => repo.isFavorite(id);

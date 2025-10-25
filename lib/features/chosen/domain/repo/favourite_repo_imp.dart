@@ -42,4 +42,33 @@ class FavoritesRepoImp implements FavoritesRepo {
   bool isFavorite(int id) {
     return favoritesBox.values.any((c) => c.id == id);
   }
+
+  @override
+  List<Character> sortFavourites(String sortBy, List<Character> characters) {
+    final sorted = List<Character>.from(characters);
+    switch (sortBy) {
+      case 'name':
+        sorted.sort((a, b) => a.name.compareTo(b.name));
+        break;
+      case 'status':
+        sorted.sort((a, b) => a.status.compareTo(b.status));
+        break;
+      case 'species':
+        sorted.sort((a, b) => a.species.compareTo(b.species));
+        break;
+    }
+    return sorted;
+  }
+
+  @override
+  List<Character> searchFavourites(String query, List<Character> characters) {
+    return characters
+        .where((c) => c.name.toLowerCase().contains(query.toLowerCase()))
+        .toList();
+  }
+
+  @override
+  void loadCharacters(List<Character> characters) {
+
+  }
 }
